@@ -24,6 +24,7 @@ public class Main{
         connection.close();
 
         System.out.println("End");
+        connection.close();
 
     }
 }
