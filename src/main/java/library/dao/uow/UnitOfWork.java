@@ -1,4 +1,4 @@
-package library.uow;
+package library.dao.uow;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -15,6 +15,10 @@ public class Adress implements IHaveId {
         this.apNumber = apNumber;
     }
 
+    public Adress() {
+        super();
+    }
+
     public int getId() {
         return id;
     }

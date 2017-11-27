@@ -1,4 +1,4 @@
-package library.uow;
+package library.dao.uow;
 
 public interface IUnitOfWork {
 

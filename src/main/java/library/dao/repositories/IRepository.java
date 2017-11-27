@@ -1,4 +1,4 @@
-package library.repositories;
+package library.dao.repositories;
 
 import library.domain.IHaveId;
 

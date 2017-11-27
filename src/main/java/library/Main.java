@@ -1,7 +1,7 @@
 package library;
 
-import library.uow.IUnitOfWork;
-import library.uow.UnitOfWork;
+import library.dao.uow.IUnitOfWork;
+import library.dao.uow.UnitOfWork;
 
 import java.sql.SQLException;
 import java.sql.Connection;

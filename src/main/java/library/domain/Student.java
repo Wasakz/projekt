@@ -16,6 +16,10 @@ public class Student implements  IHaveId {
         this.gender = gender;
     }
 
+    public Student() {
+        super();
+    }
+
     public int getId() {
         return id;
     }

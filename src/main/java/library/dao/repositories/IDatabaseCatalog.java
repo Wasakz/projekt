@@ -1,6 +1,4 @@
-package library.repositories;
-
-import java.sql.SQLException;
+package library.dao.repositories;
 
 public interface IDatabaseCatalog {
     public IStudentRepository students();
