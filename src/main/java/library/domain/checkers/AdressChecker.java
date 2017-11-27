@@ -1,4 +1,4 @@
-package library.domain.Cherkers;
+package library.domain.checkers;
 
 import library.domain.Adress;
 
