@@ -2,10 +2,7 @@ package library.dao.repositories.impl;
 
 import library.dao.mappers.IMapper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +11,8 @@ import library.dao.mappers.AdressMapper;
 import library.dao.repositories.IAdressRepository;
 import library.dao.uow.IUnitOfWork;
 import library.domain.Adress;
+import library.dao.repositories.IDatabaseCatalog;
+
 
 
 
@@ -72,44 +71,60 @@ public class AdressRepository extends RepositoryBase<Adress> implements IAdressR
         insert.setString(3,adress.getStreet());
         insert.setString(4,adress.getApNumber());
 }
-    public List<Adress> withCity(String city) {
 
-        List<Adress> Adresses = new ArrayList<Adress>();
-        try {
-            ResultSet rs = selectByCity.executeQuery();
-            while(rs.next()){
-                Adresses.add(_mapper.map(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public List<Adress> withCity(String city) throws SQLException {
+          Statement stm;
+        String sql = "SELECT * FROM adress where city = '" + city + "';";
+          stm = _connection.createStatement();
+
+          ResultSet rst;
+          rst = stm.executeQuery(sql);
+        ArrayList<Adress> adressList = new ArrayList<>();
+        while (rst.next()) {
+            Adress adress = new Adress(rst.getString("city"), rst.getString("postalCode"), rst.getString("street"), rst.getString("apNumber"));
+            adress.setId(rst.getInt("id"));
+            adressList.add(adress);
         }
-        return Adresses;
+
+        System.out.println("Cities with name " + city + " :");
+        for (int i=0; i<adressList.size(); i++) {
+            System.out.println("ID: " + adressList.get(i).getId()
+                            + " | City: " + adressList.get(i).getCity()
+                            + " | Street: " + adressList.get(i).getStreet()
+                            + " | Ap Number:" + adressList.get(i).getApNumber()
+                            + " | Postal:" + adressList.get(i).getPostalCode()
+            );
+
+        }
+        return adressList;
 
     }
 
-    public List<Adress> withPostal(String postal) {
-        List<Adress> Adresses = new ArrayList<Adress>();
+    public List<Adress> withPostal(String postalCode){
+        List<Adress> result = new ArrayList<Adress>();
         try {
-            ResultSet rs = selectByPostal.executeQuery();
-            while(rs.next()){
-                Adresses.add(_mapper.map(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        selectByPostal.setString(1, postalCode);
+        ResultSet rs = selectByPostal.executeQuery();
+        while(rs.next()){
+            result.add(_mapper.map(rs));
         }
-        return Adresses;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
-    public List<Adress> withStreet(String street) {
-        List<Adress> Adresses = new ArrayList<Adress>();
+        return result;
+}
+    public List<Adress> withStreet(String street){
+        List<Adress> result = new ArrayList<Adress>();
         try {
+            selectByStreet.setString(1, street);
             ResultSet rs = selectByStreet.executeQuery();
             while(rs.next()){
-                Adresses.add(_mapper.map(rs));
+                result.add(_mapper.map(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Adresses;
+        return result;
     }
 
 }
